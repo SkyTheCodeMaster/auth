@@ -1,0 +1,41 @@
+<nav class="navbar is-dark" role="navigation" aria-label="main navigation">
+  <div class="navbar-brand">
+    <a class="navbar-item" href="/">
+      <img src="/assets/icon.png" width="28" height="28">
+    </a>
+
+    <a 
+      role="button" 
+      class="navbar-burger" 
+      aria-label="menu" 
+      aria-expanded="false" 
+      data-target="navbar-menu"
+      onclick="document.getElementById('full-navbar-menu').classList.toggle('is-active')"
+    >
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </a>
+  </div>
+
+  <div class="navbar-menu is-dark" id="full-navbar-menu">
+    <div class="navbar-start">
+      <a class="navbar-item" href="/apidocs">
+        API Docs
+      </a>
+      <a class="navbar-item" href="/projects">
+        Projects
+      </a>
+    </div>
+    <div class="navbar-end">
+      <div class="navbar-item" id="navbar_unauthenticated">
+        <a class="button is-primary" href="/signup">Sign Up</a>
+        <a class="button ml-1" href="/login">Log In</a>
+      </div>
+      <div class="navbar-item" id="navbar_authenticated">
+        <img src="https://avatar.skystuff.cc/default.png" id="navbar_authenticated_avatar">
+        <a class="button ml-4" href="/user" id="navbar_authenticated_user">USERNAME</a>
+      </div>
+    </div>
+  </div>
+</nav>

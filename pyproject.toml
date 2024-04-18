@@ -1,0 +1,6 @@
+[tool.ruff]
+  ignore = [
+    "E722",
+    "E701",
+    
+  ]

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Sky Auth - API Docs</title>
+    <link rel="stylesheet" href="/css/vendored/bulma.css">
+    <script type="text/javascript">
+      function resizeIframe(iframe) {
+        this.container = iframe.contentWindow.document.body;
+
+        this.watch = () => {
+          cancelAnimationFrame(this.watcher);
+        
+          if (this.lastScrollHeight !== container.scrollHeight) {
+            parent.resizeIframe(iframe);  
+          }
+          this.lastScrollHeight = container.scrollHeight;
+          this.watcher = requestAnimationFrame(this.watch);
+        };
+        this.watcher = window.requestAnimationFrame(this.watch);
+        iframe.height = iframe.contentWindow.document.body.scrollHeight + 100 + "px";
+      }
+    </script>  
+  </head>
+  <body>
+    <script id="replace_with_navbar" src="/js/nav.js"></script>
+    <div class="box m-6" style="height:fit-content;">
+      <iframe src="/sup/apidocs_raw" style="width:100%;overflow:hidden;" onload="resizeIframe(this)" id="apidocs-iframe"></iframe>
+    </div>
+    <div id="replace_with_footer"></div>
+  </body>
+</html>

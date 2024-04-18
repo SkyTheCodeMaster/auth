@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Sky Auth</title>
+    <link rel="stylesheet" href="/css/vendored/bulma.css">
+    <script src="/js/vendored/iconify.min.js" async></script>
+    <script type="module" src="/js/vendored/mdblock.js" async></script>
+    <script src="/js/common.js" async></script>
+    <script src="/js/projects.js" async></script>
+    <style>html, body { height: 100vh; overflow: hidden}</style>
+  </head>
+  <body>
+    <script id="replace_with_navbar" src="/js/nav.js"></script>
+    <div class="columns mx-4">
+      <div class="column is-narrow" style="height:80vh;">
+        <nav class="panel mt-4" style="overflow-y:scroll;height:100%;">
+          <p class="panel-heading">
+            Projects
+          </p>
+          <div class="panel-block">
+            <p class="control has-icons-left">
+              <input class="input" type="text" placeholder="Search">
+              <span class="icon is-left">
+                <iconify-icon icon="material-symbols:search"></iconify-icon>
+              </span>
+            </p>
+          </div>
+          <div id="projects_list"></div>
+        </nav>
+      </div>
+      <div class="column is-narrow mt-4 is-hidden" id="project_details_box" style="height:100%;width:80%;">
+        <div class="box is-clearfix">
+          <nav class="navbar">
+            <div class="navbar-brand">
+              <h1 class="title is-2"><a id="project_details_name">project name</a></h1>
+            </div>
+            <div class="navbar-end">
+              <div class="box" style="width:fit-content;height:fit-content;">
+                <img src="/favicon.ico" alt="Project Icon" id="project_details_image" style="width:32px;height:32px;"> <!-- The icon will be grabbed from the project's favicon. -->
+              </div>
+            </div>
+          </nav>
+
+          <hr>
+
+          <div class="columns">
+            <div class="column">
+              <div class="field is-grouped is-grouped-multiline">
+                <div class="control">
+                  <div class="tags has-addons">
+                    <span class="tag is-dark">Users</span>
+                    <span class="tag" id="project_details_tag_user_count">0</span>
+                  </div>
+                </div>
+    
+                <div class="control">
+                  <div class="tags has-addons">
+                    <span class="tag is-dark">Public</span>
+                    <span class="tag is-danger" id="project_details_tag_public"><iconify-icon icon="material-symbols:public-off" id="project_details_tag_public_icon"></iconify-icon></span>
+                  </div>
+                </div>
+                
+                <div class="control">
+                  <div class="tags has-addons">
+                    <span class="tag is-dark">Open</span>
+                    <span class="tag is-danger" id="project_details_tag_open"><iconify-icon icon="material-symbols:lock" id="project_details_tag_open_icon"></iconify-icon></span>
+                  </div>
+                </div>
+                
+                <div class="control">
+                  <div class="tags has-addons">
+                    <span class="tag is-dark">Status</span>
+                    <span class="tag is-danger" id="project_details_tag_status"></span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="box">
+                <md-block id="project_details_description"></md-block>
+              </div>
+            </div>
+            <div class="column is-narrow">
+              <button class="button is-primary" id="project_details_button_enroll">Enroll</button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+    <div style="position:fixed;height:fit-content;bottom:0;width:100%;">
+      <div id="replace_with_footer"></div>
+    </div>
+  </body>
+</html>
