@@ -20,43 +20,32 @@ from utils.table import Table
 LOGFMT = "[%(filename)s][%(asctime)s][%(levelname)s] %(message)s"
 LOGDATEFMT = "%Y/%m/%d-%H:%M:%S"
 
-handlers = [
-  logging.StreamHandler()
-]
+handlers = [logging.StreamHandler()]
 
 with open("config.toml") as f:
   config = tomllib.loads(f.read())
 
-if config['log']['file']:
-  handlers.append(logging.FileHandler(config['log']['file']))
+if config["log"]["file"]:
+  handlers.append(logging.FileHandler(config["log"]["file"]))
 
 logging.basicConfig(
-  handlers = handlers,
+  handlers=handlers,
   format=LOGFMT,
   datefmt=LOGDATEFMT,
   level=logging.DEBUG,
 )
 
-coloredlogs.install(
-  fmt=LOGFMT,
-  datefmt=LOGDATEFMT
-)
+coloredlogs.install(fmt=LOGFMT, datefmt=LOGDATEFMT)
 
 LOG = logging.getLogger(__name__)
 
 app = web.Application(
-  logger = CustomWebLogger(LOG),
-  middlewares=[
-    pg_pool_middleware
-  ]
+  logger=CustomWebLogger(LOG), middlewares=[pg_pool_middleware]
 )
 api_app = web.Application(
-  logger = CustomWebLogger(LOG),
-  middlewares=[
-    pg_pool_middleware
-  ]
+  logger=CustomWebLogger(LOG), middlewares=[pg_pool_middleware]
 )
-  
+
 
 async def startup():
   try:
@@ -70,7 +59,7 @@ async def startup():
       pool = await asyncpg.create_pool(
         config["postgresql"]["url"],
         password=config["postgresql"]["password"],
-        max_size=250
+        max_size=250,
       )
 
       app.pool = pool
@@ -85,10 +74,10 @@ async def startup():
     disabled_cogs: list[str] = []
 
     for cog in [
-        f.replace(".py","") 
-        for f in os.listdir("api") 
-        if os.path.isfile(os.path.join("api",f)) and f.endswith(".py")
-      ]:
+      f.replace(".py", "")
+      for f in os.listdir("api")
+      if os.path.isfile(os.path.join("api", f)) and f.endswith(".py")
+    ]:
       if cog not in disabled_cogs:
         LOG.info(f"Loading {cog}...")
         try:
@@ -111,23 +100,32 @@ async def startup():
     await runner.setup()
     site = web.TCPSite(
       runner,
-      config['srv']['host'],
-      config['srv']['port'],
+      config["srv"]["host"],
+      config["srv"]["port"],
     )
     await site.start()
-    print(f"Started server on http://{config['srv']['host']}:{config['srv']['port']}...\nPress ^C to close...")
+    print(
+      f"Started server on http://{config['srv']['host']}:{config['srv']['port']}...\nPress ^C to close..."
+    )
     await asyncio.sleep(math.inf)
   except KeyboardInterrupt:
     pass
   except asyncio.exceptions.TimeoutError:
     LOG.error("PostgreSQL connection timeout. Check the connection arguments!")
   finally:
-    try: await api_app.websocket_handler.close()   # noqa: E701
-    except: pass #noqa: E722, E701
-    try: await site.stop()   # noqa: E701
-    except: pass  # noqa: E722, E701
-    try: await session.close()   # noqa: E701
-    except: pass  # noqa: E722, E701
+    try:
+      await api_app.websocket_handler.close()  # noqa: E701
+    except:
+      pass  # noqa: E722, E701
+    try:
+      await site.stop()  # noqa: E701
+    except:
+      pass  # noqa: E722, E701
+    try:
+      await session.close()  # noqa: E701
+    except:
+      pass  # noqa: E722, E701
+
 
 try:
   uvloop.run(startup(), debug=True)

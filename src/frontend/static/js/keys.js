@@ -168,37 +168,40 @@ async function fill_project_list() {
     // Now try to see if we're authenticated, and if so, fill in the projects list.
   // Else, use public project search list.
   const projects_list = document.getElementById("projects_list");
-
-  let projects = [];
+  let fetch_public = false;
 
   let auth = window.sessionStorage.getItem("auth");
   if (auth != "false" && auth != "null") {
     let all_user_project_request = await fetch("/api/user/projects/all/");
     if (all_user_project_request.status == 200) {
       // Ok, fill in projects table
-      let user_projects = await all_user_project_request.json();
-      projects.push(...user_projects);
+      let projects = await all_user_project_request.json();
+      api_projects_list = projects;
+      fill_projects(projects, projects_list);
+    } else {
+      // We don't have projects available (Maybe auth is invalid?).
+      // Either way, make the network request for public projects.
+      fetch_public = true;
     }
   }
-  let public_project_search = await fetch("/api/project/search/");
-  if (public_project_search.status == 200) {
-    // Ok, fill in projects table
-    let public_projects = await public_project_search.json();
-    projects.push(...public_projects);
-  } else {
-    // Some unknown error has occurred. Display it to the user.
-    let popup_id = create_popup(
-      format(
-        "Error encountered while fetching projects. HTTP{0}: {1}.",
-        public_project_search.status,
-        await public_project_search.text()
-      ), true);
-    setTimeout(function() { remove_popup(popup_id); }, 10000);
+  if (auth == "false" || auth == null || fetch_public) {
+    let public_project_search = await fetch("/api/project/search/");
+    if (public_project_search.status == 200) {
+      // Ok, fill in projects table
+      let projects = await public_project_search.json();
+      api_projects_list = projects;
+      fill_projects(projects, projects_list);
+    } else {
+      // Some unknown error has occurred. Display it to the user.
+      let popup_id = create_popup(
+        format(
+          "Error encountered while fetching projects. HTTP{0}: {1}.",
+          public_project_search.status,
+          await public_project_search.text()
+        ), true);
+      setTimeout(function() { remove_popup(popup_id); }, 10000);
+    }
   }
-
-  projects = projects.filter((value,index,array) => array.findIndex(found_value => (found_value.name===value.name))===index)
-
-  fill_projects(projects, projects_list);
 
   // Lastly, check our hash to see if we need to pre load a project.
   if (window.location.hash != "") {

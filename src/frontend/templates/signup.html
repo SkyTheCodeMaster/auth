@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Sky Auth</title>
+    <link rel="stylesheet" href="/css/vendored/bulma.css">
+    <link rel="stylesheet" href="/css/common.css">
+    <script src="/js/vendored/iconify.min.js" async></script>
+    <script src="/js/common.js" async></script>
+    <script src="/js/vendored/passwordstrength.js" async></script>
+    <script src="/js/signup.js" async></script>
+    <style>html, body { height: 100vh; overflow: hidden}</style>
+  </head>
+  <body>
+    <script id="replace_with_navbar" src="/js/nav.js"></script>
+    <div class="columns mx-4 is-fullheight">
+      <div class="column"></div>
+      <div class="column is-narrow" style="overflow: hidden;">
+        <div class="mt-2" style="width:fit-content"> <!-- Container -->
+          <h1 class="title has-text-centered">Sign Up</h1>
+    
+          <div class="field">
+            <label class="label">Username</label>
+            <div class="control">
+              <input class="input" type="text" placeholder="Enter a username" id="signup_username_text">
+            </div>
+          </div>
+
+          <div class="filed">
+            <label class="label">E-Mail Address</label>
+            <div class="control">
+              <input class="input" type="email" placeholder="Enter an e-mail address" id="signup_email_text">
+            </div>
+          </div>
+    
+          <div class="field">
+            <label class="label">Password</label>
+            <div class="control">
+              <input class="input" type="password" id="signup_password_text">
+            </div>
+            <progress class="progress is-danger mt-4" id="signup_password_strength_bar" value="20" max="100"></progress>
+            <p id="signup_password_strength_text"></p>
+            <p class="help is-danger" style="display:none;" id="signup_password_too_short">Password too short!</p>
+            <p class="help is-danger" style="display:none;" id="signup_password_too_long">Password too long!</p>
+            <p class="help is-danger" style="display:none;" id="signup_password_mixed_case">Password must have uppercase and lowercase letters!</p>
+            <p class="help is-danger" style="display:none;" id="signup_password_min_numbers"></p>
+            <p class="help is-danger" style="display:none;" id="signup_password_min_special"></p>
+          </div>
+
+          <div class="field has-text-centered">
+            <label class="checkbox">
+              <input type="checkbox" id="signup_agree_tos_checkbox">
+              I agree to the <a href="/legal/tos">Terms of Service</a> and <a href="/legal/privacy">Privacy Policy</a>.
+            </label>
+          </div>
+    
+          <div class="field has-text-centered">
+            <div class="control">
+              <button class="button is-link" id="signup_button_signup" onclick="signup();">Sign Up</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="column"></div>
+    </div>
+    <div style="position:fixed;height:fit-content;bottom:0;width:100%;">
+      <div id="replace_with_footer"></div>
+    </div>
+  </body>
+</html>

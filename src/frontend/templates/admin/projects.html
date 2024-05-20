@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Sky Auth</title>
+    <link rel="stylesheet" href="/css/vendored/bulma.css">
+    <link rel="stylesheet" href="/css/common.css">
+    <link rel="stylesheet" href="/css/projects.css">
+    <script src="/js/vendored/iconify.min.js" async></script>
+    <script type="module" src="/js/vendored/mdblock.js" async></script>
+    <script src="/js/common.js" async></script>
+    <script src="/js/admin/projects.js" async></script>
+    <style>html, body { height: 100vh; overflow: hidden}</style>
+  </head>
+  <body>
+    <script id="replace_with_navbar" src="/js/nav.js"></script>
+
+    <div class="modal" id="modal_edit_project" style="z-index: 510;">
+      <div class="modal-background" onclick="close_edit_modal()"></div>
+      <div class="modal-card">
+        <header class="modal-card-head py-4">
+          <p class="modal-card-title">Editing <code id="modal_edit_project_name"></code></p>
+          <button class="delete" aria-label="close" onclick="close_edit_modal()"></button>
+        </header>
+        <section class="modal-card-body" id="modal_edit_project_body">
+          <div class="field">
+            <label class="label is-unselectable">Project Name</label>
+            <div class="control">
+              <input class="input" type="text" id="modal_edit_project_project_name_text">
+            </div>
+          </div>
+
+          <div class="field">
+            <label class="label is-unselectable">Project Name</label>
+            <div class="control">
+              <input class="input" type="url" id="modal_edit_project_project_url_text">
+            </div>
+          </div>
+
+          <div class="field">
+            <div class="control">
+              <label class="checkbox is-unselectable">
+                <input type="checkbox" id="modal_edit_project_project_open_checkbox">
+                Project open
+              </label>
+            </div>
+          </div>
+
+          <div class="field">
+            <div class="control">
+              <label class="checkbox is-unselectable">
+                <input type="checkbox" id="modal_edit_project_project_public_checkbox">
+                Project public
+              </label>
+            </div>
+          </div>
+
+          <div class="field">
+            <label class="label is-unselectable">Description (Markdown)</label>
+            <textarea class="textarea" id="modal_edit_project_project_description_textarea"></textarea>
+          </div>
+
+        </section>
+        <footer class="modal-card-foot pt-0 pb-3 is-flex is-justify-content-space-between">
+          <div class="level mt-2 mb-0">
+            <button class="button is-success" onclick="save_project(this);">Save</button>
+          </div>
+        </footer>
+      </div>
+      <button class="modal-close is-large" aria-label="close" onclick="close_edit_modal()"></button>
+    </div>
+
+    <div class="modal" id="modal_pending_users" style="z-index: 510;">
+      <div class="modal-background" onclick="close_pending_modal()"></div>
+      <div class="modal-card">
+        <header class="modal-card-head py-4">
+          <p class="modal-card-title">Pending Approvals</p>
+          <button class="delete" aria-label="close" onclick="close_pending_modal()"></button>
+        </header>
+        <section class="modal-card-body" id="modal_pending_body">
+          <!-- Navigation -->
+          <nav class="pagination is-centered" role="navigation" aria-label="pagination">
+            <a class="pagination-previous" id="modal_pending_pagination_previous">Previous</a>
+            <a class="pagination-next" id="modal_pending_pagination_next">Next Page</a>
+            <ul class="pagination-list" id="modal_pending_pagination_list">
+            
+            </ul>
+          </nav>
+          <h1 id="modal_pending_showing_users" class="title is-4 has-text-centered my-0" data-text="Showing {0} of {1} users."></h1>
+          <h1 id="modal_pending_showing_pages" class="title is-6 has-text-centered my-1" data-text="Page {0} of {1}."></h1>
+          <!-- User list -->
+          <div class="box" id="modal_pending_users_list">
+
+          </div>
+          <!-- This is the pagination at the bottom -->
+          <nav class="pagination is-centered" role="navigation" aria-label="pagination">
+            <a class="pagination-previous" id="modal_pending_pagination_previous_bottom">Previous</a>
+            <a class="pagination-next" id="modal_pending_pagination_next_bottom">Next Page</a>
+            <ul class="pagination-list" id="modal_pending_pagination_list_bottom">
+
+            </ul>
+          </nav>
+        </section>
+        <footer class="modal-card-foot pt-0 pb-3 is-flex is-justify-content-space-between">
+        </footer>
+      </div>
+      <button class="modal-close is-large" aria-label="close" onclick="close_pending_modal()"></button>
+    </div>
+
+    <div class="modal" id="modal_current_users" style="z-index: 510;">
+      <div class="modal-background" onclick="close_current_modal()"></div>
+      <div class="modal-card">
+        <header class="modal-card-head py-4">
+          <p class="modal-card-title">Project Users</p>
+          <button class="delete" aria-label="close" onclick="close_current_modal()"></button>
+        </header>
+        <section class="modal-card-body" id="modal_pending_body">
+          <!-- Navigation -->
+          <nav class="pagination is-centered" role="navigation" aria-label="pagination">
+            <a class="pagination-previous" id="modal_current_pagination_previous">Previous</a>
+            <a class="pagination-next" id="modal_current_pagination_next">Next Page</a>
+            <ul class="pagination-list" id="modal_current_pagination_list">
+            
+            </ul>
+          </nav>
+          <h1 id="modal_current_showing_users" class="title is-4 has-text-centered my-0" data-text="Showing {0} of {1} users."></h1>
+          <h1 id="modal_current_showing_pages" class="title is-6 has-text-centered my-1" data-text="Page {0} of {1}."></h1>
+          <!-- User list -->
+          <div class="box" id="modal_current_users_list">
+
+          </div>
+          <!-- This is the pagination at the bottom -->
+          <nav class="pagination is-centered" role="navigation" aria-label="pagination">
+            <a class="pagination-previous" id="modal_current_pagination_previous_bottom">Previous</a>
+            <a class="pagination-next" id="modal_current_pagination_next_bottom">Next Page</a>
+            <ul class="pagination-list" id="modal_current_pagination_list_bottom">
+              
+            </ul>
+          </nav>
+        </section>
+        <footer class="modal-card-foot pt-0 pb-3 is-flex is-justify-content-space-between">
+        </footer>
+      </div>
+      <button class="modal-close is-large" aria-label="close" onclick="close_current_modal()"></button>
+    </div>
+
+    <div class="modal" id="modal_delete_project" style="z-index: 510;">
+      <div class="modal-background" onclick="close_delete_modal()"></div>
+      <div class="modal-card">
+        <header class="modal-card-head py-4">
+          <p class="modal-card-title">Delete <b id="modal_delete_title"></b>?</p>
+          <button class="delete" aria-label="close" onclick="close_delete_modal()"></button>
+        </header>
+        <section class="modal-card-body" id="modal_delete_body">
+          <h1>Are you sure you want to delete <b id="modal_delete_name"></b>?</h1>
+        </section>
+        <footer class="modal-card-foot pt-0 pb-3 is-flex is-justify-content-space-between">
+          <div class="buttons">
+            <button class="button is-success" onclick="close_delete_modal()">Close</button>
+            <button class="button is-danger" onclick="delete_project(this)">Delete</button>
+          </div>
+        </footer>
+      </div>
+      <button class="modal-close is-large" aria-label="close" onclick="close_delete_modal()"></button>
+    </div>
+
+    <div class="columns mx-4">
+      <div class="column is-narrow" style="height:80vh;">
+        <nav class="panel mt-4 overflow-scroll-hidden-bars" style="overflow-y:scroll;height:100%;">
+          <p class="panel-heading">
+            Projects
+          </p>
+          <div class="panel-block">
+            <p class="control has-icons-left">
+              <input class="input" type="text" placeholder="Search">
+              <span class="icon is-left">
+                <iconify-icon icon="material-symbols:search"></iconify-icon>
+              </span>
+            </p>
+          </div>
+          <div id="projects_list"></div>
+        </nav>
+      </div>
+      <div class="column is-narrow mt-4 is-hidden" id="project_details_box" style="height:100%;width:80%;">
+        <div class="box is-clearfix">
+          <nav class="navbar">
+            <div class="navbar-brand">
+              <div class="navbar-item">
+                <h1 class="title is-2"><a id="project_details_name">project name</a></h1>
+              </div>
+            </div>
+            <div class="navbar-start">
+              <a class="navbar-item button has-background-link my-4 ml-2" title="Edit project" onclick="open_edit_modal();">
+                <iconify-icon icon="material-symbols:edit"></iconify-icon>
+              </a>
+              <a class="navbar-item button has-background-warning my-4 ml-2" style="display: none" id="project_details_navbar_check_pending" title="Check pending users" onclick="open_pending_modal(0);">
+                <iconify-icon icon="mdi:user-add-outline"></iconify-icon>
+              </a>
+              <a class="navbar-item button has-background-primary my-4 ml-2" style="display: none" id="project_details_navbar_check_current" title="Check current users" onclick="open_current_modal(0);">
+                <iconify-icon icon="mdi:user-outline"></iconify-icon>
+              </a>
+              <a class="navbar-item button has-background-danger my-4 ml-2" title="Delete project" onclick="open_delete_modal();">
+                <iconify-icon icon="mdi:delete-outline"></iconify-icon>
+              </a>
+            </div>
+            <div class="navbar-end">
+              <div class="box p-1 pt-2" style="width:fit-content;height:fit-content;">
+                <img src="/favicon.ico" alt="Project Icon" id="project_details_image" style="width:64px;height:64px;"> <!-- The icon will be grabbed from the project's favicon. -->
+              </div>
+            </div>
+          </nav>
+
+          <hr>
+
+          <div class="columns">
+            <div class="column">
+              <div class="field is-grouped is-grouped-multiline" id="project_details_tags">
+              </div>
+
+              <div class="box content">
+                <md-block id="project_details_description"></md-block>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+    <div style="position:fixed;height:fit-content;bottom:0;width:100%;">
+      <div id="replace_with_footer"></div>
+    </div>
+  </body>
+</html>

@@ -9,10 +9,32 @@ if TYPE_CHECKING:
 
 character_pool: str = string.ascii_letters + string.digits
 
-async def generate_token(conn: Connection, table: str, column: str, length: int) -> str:
+async def generate_token_user(
+  conn: Connection, length: int
+) -> str:
   token: str = "".join(random.choices(character_pool, k=length))
-  exists = (await conn.execute("SELECT EXISTS ( SELECT 1 FROM $1 WHERE $2 ILIKE $3)", table, column, token))["exists"]
+  exists = (
+    await conn.fetchrow(
+      "SELECT EXISTS ( SELECT 1 FROM Users WHERE Token ILIKE $1)",
+      token,
+    )
+  )["exists"]
   if exists:
-    return await generate_token(conn, table, column, length)
+    return await generate_token_user(conn, length)
+  else:
+    return token
+
+async def generate_token_apikey(
+  conn: Connection, length: int
+) -> str:
+  token: str = "".join(random.choices(character_pool, k=length))
+  exists = (
+    await conn.fetchrow(
+      "SELECT EXISTS ( SELECT 1 FROM APIKeys WHERE KeyID ILIKE $1)",
+      token,
+    )
+  )["exists"]
+  if exists:
+    return await generate_token_apikey(conn, length)
   else:
     return token

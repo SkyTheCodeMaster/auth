@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Sky Auth</title>
+    <link rel="stylesheet" href="/css/vendored/bulma.css">
+    <link rel="stylesheet" href="/css/common.css">
+    <script src="/js/vendored/iconify.min.js" async></script>
+    <script src="/js/common.js" async></script>
+    <script src="/js/admin/panel.js" async></script>
+  </head>
+  <body>
+    <script id="replace_with_navbar" src="/js/nav.js"></script>
+    <!-- body -->
+    <div class="grid m-2">
+      <div class="cell box fit-content">
+        <!-- Stats cell -->
+        <p id="stats_cell_db_size" data-text="The database is {0}"></p>
+        <p id="stats_cell_users" data-text="There are {0} users."></p>
+        <p id="stats_cell_projects" data-text="There are {0} projects."></p>
+        <p id="stats_cell_authorizations" data-text="There are {0} total authorizations."></p>
+        <p id="stats_cell_apikeys" data-text="There are {0} API keys."></p>
+      </div>
+      <div class="cell box fit-content">
+        <!-- Create project cell -->
+        <div class="has-text-centered">
+          <h1 class="title is-4">Create Project</h1>
+        </div>
+
+        <div class="field">
+          <label class="label is-unselectable">Project Name</label>
+          <div class="control">
+            <input class="input" type="text" id="create_project_name_text">
+          </div>
+        </div>
+
+        <div class="field">
+          <label class="label is-unselectable">Project URL</label>
+          <div class="control">
+            <input class="input" type="url" id="create_project_url_text">
+          </div>
+        </div>
+
+        <div class="level">
+          <div class="level-item">
+            <div class="field">
+              <div class="control">
+                <label class="checkbox is-unselectable">
+                  <input type="checkbox" id="create_project_open_checkbox">
+                  Project open
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <div class="level-item">
+            <div class="field">
+              <div class="control">
+                <label class="checkbox is-unselectable">
+                  <input type="checkbox" id="create_project_public_checkbox">
+                  Project public
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="field">
+          <label class="label is-unselectable">Description (Markdown)</label>
+          <textarea class="textarea" id="create_project_description_textarea"></textarea>
+        </div>
+
+        <div class="field has-text-centered">
+          <div class="control">
+            <button class="button is-link" onclick="create_project(this);">Create project</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="cell box fit-content">
+        <!-- Manually setting user approval -->
+        <div class="has-text-centered">
+          <h1 class="title is-4">Set user approval</h1>
+        </div>
+
+        <div class="field">
+          <label class="label is-unselectable">Username</label>
+          <div class="control">
+            <input class="input" type="text" placeholder="Username"  id="set_approval_username_text">
+          </div>
+        </div>
+
+        <div class="field">
+          <label class="label is-unselectable">Project</label>
+          <div class="dropdown" id="set_approval_project_select">
+            <div class="dropdown-trigger">
+              <button class="button" id="set_approval_dropdown_button" aria-controls="set_approval_project_select">
+                <span id="set_approval_project_selected_project">Select</span>
+                <iconify-icon icon="mdi:chevron-down"></iconify-icon>
+              </button>
+            </div>
+            <div class="dropdown-menu" id="set_approval_dropdown_menu" role="menu">
+              <div class="dropdown-content">
+                <div>
+                  <input class="input" type="text" id="set_approval_dropdown_project_search" placeholder="Project">
+                </div>
+                <hr class="dropdown-divider">
+                <div id="set_approval_dropdown_projects">
+  
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="field">
+          <div class="select">
+            <select id="set_approval_select_box">
+              <option value="0">Default</option>
+              <option value="1">Approved</option>
+              <option value="2">Pending</option>
+              <option value="3">Denied</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="field has-text-centered">
+          <div class="control">
+            <button class="button is-link" id="set_approval_button">Set Approval</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- /body -->
+    <div id="replace_with_footer"></div>
+  </body>
+</html>

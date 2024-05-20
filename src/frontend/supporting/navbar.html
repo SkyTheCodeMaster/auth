@@ -1,4 +1,4 @@
-<nav class="navbar is-dark" role="navigation" aria-label="main navigation">
+<nav class="navbar is-dark" role="navigation" aria-label="main navigation" style="z-index:500;">
   <div class="navbar-brand">
     <a class="navbar-item" href="/">
       <img src="/assets/icon.png" width="28" height="28">
@@ -28,13 +28,33 @@
       </a>
     </div>
     <div class="navbar-end">
+      <div class="navbar-item has-dropdown is-hoverable" id="navbar_admin" style="display:none">
+        <a class="navbar-item">
+          Admin
+        </a>
+        <div class="navbar-dropdown">
+          <a class="navbar-item" href="/admin/panel">
+            Panel
+          </a>
+          <a class="navbar-item" href="/admin/projects">
+            Projects
+          </a>
+        </div>
+      </div>
       <div class="navbar-item" id="navbar_unauthenticated">
         <a class="button is-primary" href="/signup">Sign Up</a>
         <a class="button ml-1" href="/login">Log In</a>
       </div>
-      <div class="navbar-item" id="navbar_authenticated">
-        <img src="https://avatar.skystuff.cc/default.png" id="navbar_authenticated_avatar">
-        <a class="button ml-4" href="/user" id="navbar_authenticated_user">USERNAME</a>
+      <div class="navbar-item has-dropdown is-hoverable mr-2 my-1" id="navbar_authenticated">
+        <a class="navbar-item">
+          <img src="https://avatar.skystuff.cc/default.png" id="navbar_authenticated_avatar">
+          <a class="button ml-4" href="/user" id="navbar_authenticated_user">USERNAME</a>
+        </a>
+        <div class="navbar-dropdown">
+          <a class="navbar-item" onclick="logout();">
+            Log Out
+          </a>
+        </div>
       </div>
     </div>
   </div>

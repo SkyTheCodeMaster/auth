@@ -7,29 +7,25 @@
     <link rel="stylesheet" href="/css/common.css">
     <script src="/js/vendored/iconify.min.js" async></script>
     <script src="/js/common.js" async></script>
-    <script src="/js/index.js" async></script>
     <style>html, body { height: 100vh; overflow: hidden}</style>
   </head>
   <body>
     <script id="replace_with_navbar" src="/js/nav.js"></script>
     <div class="columns mx-4 is-fullheight">
       <div class="column"></div>
-      <div class="column is-narrow" style="display: none;" id="authenticated_projects_column">
-        <div style="height:50vh;">
-          <h1 class="title">Your Projects</h1>
-          <div class="box m-1" style="overflow-y:scroll;height:70vh;">
-            <div id="authenticated_projects"></div>
-          </div>
-        </div>
+      <div class="column is-narrow" style="overflow: hidden;">
+        <iframe 
+          src="/sup/login_embed"
+          onload='javascript:(function(o) {
+            o.style.height=o.contentWindow.document.body.scrollHeight+"px";
+          }(this));'
+          style="height:200px;width:100%;border:none;overflow:hidden;"
+          scrolling="no"
+        >
+        
+        </iframe>
       </div>
-      <div class="column is-narrow">
-        <div style="height:50vh;">
-          <h1 class="title">Public Projects</h1>
-          <div class="box m-1" style="overflow-y:scroll;height:70vh;">
-            <div id="public_projects"></div>
-          </div>
-        </div>
-      </div>
+      <div class="column"></div>
     </div>
     <div style="position:fixed;height:fit-content;bottom:0;width:100%;">
       <div id="replace_with_footer"></div>

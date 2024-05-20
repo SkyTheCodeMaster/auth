@@ -26,7 +26,8 @@ def get_forwarded_for(headers: MultiMapping[str]) -> List[IPAddress]:
   for a in forwarded_for:
     addr = a.strip()
     try:
-      if addr == "127.0.0.1": continue
+      if addr == "127.0.0.1":
+        continue
       valid_ips.append(ip_address(addr))
     except ValueError:
       raise web.HTTPBadRequest(reason=f"Invalid {hdrs.X_FORWARDED_FOR} header")
@@ -34,7 +35,6 @@ def get_forwarded_for(headers: MultiMapping[str]) -> List[IPAddress]:
 
 
 class CustomWebLogger(AccessLogger):
-
   def compile_format(self, log_format: str) -> Tuple[str, List[KeyMethod]]:
     """
     Translate log_format into form usable by modulo formatting
@@ -71,9 +71,9 @@ class CustomWebLogger(AccessLogger):
     return log_format, methods
 
   @staticmethod
-  def _format_a(request: BaseRequest, 
-                response: StreamResponse,
-                time: float) -> str:
+  def _format_a(
+    request: BaseRequest, response: StreamResponse, time: float
+  ) -> str:
     if request is None:
       return "-"
     headers = request.headers

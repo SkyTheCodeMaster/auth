@@ -5,6 +5,7 @@
     <link rel="stylesheet" href="/css/vendored/bulma.css">
     <script src="/js/vendored/iconify.min.js" async></script>
     <script src="/js/common.js" async></script>
+    <script src="/js/login.js" async></script>
   </head>
   <body>
     <div style="width:fit-content"> <!-- Container -->
@@ -20,12 +21,12 @@
       <div class="field">
         <label class="label">Password</label>
         <div class="control">
-          <input class="input" type="passowrd" id="login_password_text">
+          <input class="input" type="password" id="login_password_text">
         </div>
       </div>
 
       <div class="field has-text-centered">
-        <label class="checkbox" >
+        <label class="checkbox">
           <input type="checkbox" id="login_checkbox_rememberme">
           Remember Me
         </label>
@@ -33,7 +34,7 @@
 
       <div class="field has-text-centered">
         <div class="control">
-          <button class="button is-link" id="login_button_login">Log In</button>
+          <button class="button is-link" id="login_button_login" onclick="login();">Log In</button>
         </div>
       </div>
 

@@ -1,15 +1,16 @@
 fetch("/sup/navbar")
 .then(res => res.text())
 .then(text => {
-  let oldelem = document.querySelector("script#replace_with_navbar");
+  const oldelem = document.querySelector("script#replace_with_navbar");
   let newelem = document.createElement("div");
   newelem.innerHTML = text;
   oldelem.replaceWith(newelem);
+  get_user_area();
 });
 fetch("/sup/footer")
 .then(res => res.text())
 .then(text => {
-  let oldelem = document.querySelector("div#replace_with_footer");
+  const oldelem = document.querySelector("div#replace_with_footer");
   let newelem = document.createElement("div");
   newelem.innerHTML = text;
   oldelem.replaceWith(newelem);
@@ -35,15 +36,28 @@ function toggle_navmenu(burger) {
 function get_user_area() {
   // Now try to see if we're authenticated, and if so, present user data in navbar.
   // Else, present sign in / log in buttons.
-  var navbar_authenticated = document.getElementById("navbar_authenticated");
-  var navbar_unauthenticated = document.getElementById("navbar_unauthenticated");
-  if (window.sessionStorage.getItem("auth") != "false") {
+  const navbar_authenticated = document.getElementById("navbar_authenticated");
+  const navbar_unauthenticated = document.getElementById("navbar_unauthenticated");
+  const navbar_admin = document.getElementById("navbar_admin");
+  let auth = window.sessionStorage.getItem("auth");
+  if (auth == "false" || auth == null) {
+    fetch("/api/user/get/")
+      .then(res => {
+        if (res.status == 200) {
+          res.json().then(json => {
+            window.sessionStorage.setItem("auth", JSON.stringify(json));
+            get_user_area();
+          })
+        }
+      })
+  }
+  if (auth != "false" && auth != null) {
     // Visualize the correct fields.
     navbar_unauthenticated.style.display = "none";
     navbar_authenticated.style.display = "";
 
     // Now fill in user data.
-    var data = JSON.parse(window.sessionStorage.getItem("auth"));
+    var data = JSON.parse(auth);
     var username = data["name"];
   
     // Place the username into the name field.
@@ -52,9 +66,20 @@ function get_user_area() {
     // Setup the correct avatar.
     var avatar = document.getElementById("navbar_authenticated_avatar");
     avatar.setAttribute("src", format("https://avatar.skystuff.cc/avatar/{0}", username));
+
+    if (data.super_admin) {
+      navbar_admin.style.display = null;
+    }
   } else {
     // Visualize the correct fields.
     navbar_authenticated.style.display = "none";
     navbar_unauthenticated.style.display = ""
   }
+}
+
+function logout() {
+  window.sessionStorage.setItem("auth","false");
+  delete_cookie("Authorization");
+  delete_cookie("SecureAuthorization");
+  window.location.assign("/");
 }

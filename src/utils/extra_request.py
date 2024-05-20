@@ -12,8 +12,10 @@ if TYPE_CHECKING:
   from asyncpg import Connection, Pool
   from api.utils.websocket_handler import WebsocketHandler
 
+
 class StatusConfig:
-  UPDATE_FREQUENCY: int # Number of seconds for update frequency
+  UPDATE_FREQUENCY: int  # Number of seconds for update frequency
+
 
 class Application(BaseApplication):
   pool: Pool
@@ -21,8 +23,9 @@ class Application(BaseApplication):
   cs: ClientSession
   POSTGRES_ENABLED: bool
   status_config: StatusConfig
-  config: dict # config.toml
+  config: dict  # config.toml
   websocket_handler: WebsocketHandler
+
 
 class Request(BaseRequest):
   app: Application

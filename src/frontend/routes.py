@@ -72,8 +72,6 @@ for name, contents in sup_templates.items():
 @routes.get("/")
 async def get_index(request: web.Request) -> web.Response:
   # Check devmode
-  if DEVMODE:
-    refresh_files()
 
   rendered = templates["index.html"]
   return web.Response(body=rendered,content_type="text/html")
