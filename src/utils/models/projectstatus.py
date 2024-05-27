@@ -3,7 +3,7 @@ from __future__ import annotations
 from .project import Project
 
 approval_int_to_word = {
-  0: "inactive",
+  0: "default",
   1: "approved",
   2: "pending",
   3: "denied"

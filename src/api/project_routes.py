@@ -268,15 +268,12 @@ async def get_project_status(request: Request) -> Response:
         "SELECT * FROM Projects WHERE Name ILIKE $1 AND Public=true;",
         project_name,
       )
-      print("using public record", project_record)
       project = Project.from_record(project_record)
       data = project.dict()
-      data["approval"] = "inactive"
+      data["approval"] = "default"
     else:
-      print("used private", project_record)
       project_status = ProjectStatus(**project_record)
       data = project_status.dict()
-    print(data)
     return web.json_response(data)
 
 

@@ -22,12 +22,19 @@ async function login() {
     });
 
     if (request.status == 200) {
-      show_popup("Logged in!", false, 2500, 100);
+      show_popup("Logged in!", false, 2500);
+      // Check if theres a redirect
+      const url = new URL(window.location.href);
+      let redirect = url.searchParams.get("r")
+
+      if (redirect != null) {
+        window.location.replace(redirect);
+      }
     } else {
-      show_popup("Failed to log in!", true, 3000, 100);
+      show_popup("Failed to log in!", true, 3000);
     }
   } catch (e) {
-    show_popup("Failed to log in! " + e, true, 3000, 100);
+    show_popup("Failed to log in! " + e, true, 3000);
   }
 
   login_button_login.removeAttribute("disabled");

@@ -21,6 +21,21 @@ if TYPE_CHECKING:
 
 routes = web.RouteTableDef()
 
+def add_cors(request: Request, response: Response) -> None:
+  response.headers.add("Access-Control-Allow-Origin",request.headers['Origin'])
+  response.headers.add("Access-Control-Allow-Credentials", "true")
+  response.headers.add("Access-Control-Allow-Methods","GET")
+
+
+@routes.options("/user/get/")
+async def options_user_get(request: Request) -> Response:
+  resp = Response()
+  try:
+    add_cors(request, resp)
+  except Exception:
+    pass
+
+  return resp
 
 @routes.get("/user/get/")
 async def get_user_get(request: Request) -> Response:
@@ -30,7 +45,12 @@ async def get_user_get(request: Request) -> Response:
   if type(auth) is Key:
     return Response(status=400, body="please use /key/{key}/ endpoint")
   if type(auth) is User:
-    return web.json_response(auth.dict())
+    resp = Response(body=json.dumps(auth.dict()))
+    try:
+      add_cors(request, resp)
+    except Exception:
+      pass
+    return resp
 
 
 @routes.get("/user/keys/")
@@ -173,6 +193,8 @@ async def post_user_login(request: Request) -> Response:
         "Authorization",
         user.token,
         max_age=cookie_time(1, "WEEK" if body.get("rememberme") else "DAY"),
+        samesite="none",
+        secure=True,
       )
       resp.set_cookie(
         "SecureAuthorization",

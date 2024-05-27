@@ -42,4 +42,5 @@ CREATE TABLE IF NOT EXISTS APIKeys (
   KeyName TEXT,
   KeyID TEXT PRIMARY KEY, -- This is the funny 128 character random string.
   Data BYTEA -- Encoded data to go with the string. Encoded/decoded as necessary in API endpoints.
+  PRIMARY KEY (UserID, ProjectID, KeyName)
 );

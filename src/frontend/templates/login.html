@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="/css/common.css">
     <script src="/js/vendored/iconify.min.js" async></script>
     <script src="/js/common.js" async></script>
+    <script src="/js/login.js" async></script>
     <style>html, body { height: 100vh; overflow: hidden}</style>
   </head>
   <body>
@@ -14,16 +15,40 @@
     <div class="columns mx-4 is-fullheight">
       <div class="column"></div>
       <div class="column is-narrow" style="overflow: hidden;">
-        <iframe 
-          src="/sup/login_embed"
-          onload='javascript:(function(o) {
-            o.style.height=o.contentWindow.document.body.scrollHeight+"px";
-          }(this));'
-          style="height:200px;width:100%;border:none;overflow:hidden;"
-          scrolling="no"
-        >
-        
-        </iframe>
+        <div style="width:fit-content"> <!-- Container -->
+          <h1 class="title has-text-centered">Log In</h1>
+    
+          <div class="field">
+            <label class="label">Username</label>
+            <div class="control">
+              <input class="input" type="text" placeholder="Enter a username" id="login_username_text">
+            </div>
+          </div>
+    
+          <div class="field">
+            <label class="label">Password</label>
+            <div class="control">
+              <input class="input" type="password" id="login_password_text">
+            </div>
+          </div>
+    
+          <div class="field has-text-centered">
+            <label class="checkbox">
+              <input type="checkbox" id="login_checkbox_rememberme">
+              Remember Me
+            </label>
+          </div>
+    
+          <div class="field has-text-centered">
+            <div class="control">
+              <button class="button is-link" id="login_button_login" onclick="login();">Log In</button>
+            </div>
+          </div>
+    
+          <div class="has-text-centered">
+            <p>Need an account? <a href="/signup">Sign up!</a></p>
+          </div>
+        </div>
       </div>
       <div class="column"></div>
     </div>

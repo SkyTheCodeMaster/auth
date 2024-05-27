@@ -1,0 +1,15 @@
+[Unit]
+Description=Sky SSO Webserver
+After=network.target
+StartLimitIntervalSec=0
+
+[Service]
+Type=simple
+Restart=always
+RestartSec=1
+WorkingDirectory=/home/sky/github/sky-auth/src/
+User=sky
+ExecStart=/home/sky/github/sky-auth/src/run.sh
+
+[Install]
+WantedBy=multi-user.target
